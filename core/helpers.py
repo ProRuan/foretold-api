@@ -35,6 +35,16 @@ def get_env_csv(name: str, default: str = '') -> list[str]:
     return [item.strip() for item in raw.split(',') if item.strip()]
 
 
+def get_redis_url() -> str:
+    """
+    Return a Redis URL from environment variables.
+    """
+    host = get_env('REDIS_HOST', 'redis')
+    port = get_env('REDIS_PORT', '6379')
+    db = get_env('REDIS_DB', '1')
+    return f'redis://{host}:{port}/{db}'
+
+
 def health_view(_request: object) -> JsonResponse:
     """View function for health check endpoint."""
     return JsonResponse({'status': 'ok'})

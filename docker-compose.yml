@@ -40,7 +40,7 @@ services:
     volumes:
       - .:/app
       - foretold_media:/app/media
-      - foretold_static:/app/staticfiles
+      - foretold_static:/app/static
     depends_on:
       db:
         condition: service_healthy
