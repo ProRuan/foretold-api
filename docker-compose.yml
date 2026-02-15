@@ -1,0 +1,70 @@
+services:
+  db:
+    image: postgres:16-alpine
+    container_name: foretold_db
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: ${DB_NAME}
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+    volumes:
+      - foretold_postgres:/var/lib/postgresql
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${DB_USER} -d ${DB_NAME}"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+
+  redis:
+    image: redis:7-alpine
+    container_name: foretold_redis
+    restart: unless-stopped
+    volumes:
+      - foretold_redis:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+
+  web:
+    build:
+      context: .
+      dockerfile: backend.Dockerfile
+    container_name: foretold_web
+    restart: unless-stopped
+    env_file: .env
+    command: ["./backend.entrypoint.sh", "web"]
+    ports:
+      - "8000:8000"
+    volumes:
+      - .:/app
+      - foretold_media:/app/media
+      - foretold_static:/app/staticfiles
+    depends_on:
+      db:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+
+  worker:
+    build:
+      context: .
+      dockerfile: backend.Dockerfile
+    container_name: foretold_worker
+    restart: unless-stopped
+    env_file: .env
+    command: ["./backend.entrypoint.sh", "worker"]
+    volumes:
+      - .:/app
+    depends_on:
+      db:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+
+volumes:
+  foretold_postgres:
+  foretold_redis:
+  foretold_media:
+  foretold_static:

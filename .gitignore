@@ -1,75 +1,35 @@
-# Byte-compiled / optimized / DLL files
+# Python
 __pycache__/
 *.py[cod]
-*$py.class
-
-# Django specific
+*.pyd
 *.log
-local_settings.py
-db.sqlite3
-db.sqlite3-journal
-media/
-staticfiles/
+
+# Env files / secrets
 .env
+.env.*
 *.env
 
-# Virtual environment
+# Virtualenvs
 venv/
-env/
-ENV/
 .venv/
-.Python
+env/
 
-# VS Code settings
+# Django artifacts
+staticfiles/
+media/
+
+# Tests / coverage
+.pytest_cache/
+.coverage
+htmlcov/
+
+# IDE / OS
+.idea/
 .vscode/
-
-# macOS
 .DS_Store
 
-# PyCharm
-.idea/
-
-# Python egg files
-*.egg
-*.egg-info/
-dist/
-build/
-eggs/
-parts/
-sdist/
-develop-eggs/
-.installed.cfg
-lib/
-lib64/
-
-# Test cache
-.coverage
-.tox/
-.nox/
-.pytest_cache/
-
-# MyPy
-.mypy_cache/
-.dmypy.json
-dmypy.json
-
-# Coverage reports
-htmlcov/
-coverage.xml
-
-# Jupyter Notebook
-.ipynb_checkpoints
-
-# System Files
-Thumbs.db
-ehthumbs.db
-
-# Windows Batch Files
+# Scripts
 up.bat
 
 # Private
-backend_checklist.txt
-init_prompt_ii.txt
-prompts.txt
-prompts_ii.txt
-video_prompts.txt
+private/
